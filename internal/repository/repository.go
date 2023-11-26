@@ -24,4 +24,5 @@ type Psql interface {
 	UpdateUser(ctx context.Context, user *model.User) error
 	DeleteUser(ctx context.Context, user *model.User) error
 	CreateUserDevice(ctx context.Context, ud *model.UserDevice) error
+	FindRoleById(ctx context.Context, id int) (resp *model.Role, err error)
 }

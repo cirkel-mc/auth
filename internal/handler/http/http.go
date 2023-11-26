@@ -25,4 +25,5 @@ func New(m abstract.Middleware, u usecase.Usecase) abstract.RESTHandler {
 func (h *httpInstance) Router(r fiber.Router) {
 	v1 := r.Group("/v1", h.middleware.HTTPSignatureValidate)
 	v1.Post("/register", h.register)
+	v1.Post("/login", h.login)
 }

@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/comrades-mc/goutils/config/database/dbc"
+	"github.com/comrades-mc/goutils/env"
 	"github.com/comrades-mc/goutils/errs"
 	"github.com/comrades-mc/goutils/logger"
 	"github.com/comrades-mc/goutils/tracer"
@@ -20,6 +21,14 @@ import (
 func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister) (resp *dto.Token, err error) {
 	trace, ctx := tracer.StartTraceWithContext(ctx, "Usecase:Register")
 	defer trace.Finish()
+
+	// get customer role
+	role, err := u.psql.FindRoleById(ctx, env.GetInt("CUSTOMER_ROLE_ID"))
+	if err != nil {
+		trace.SetError(err)
+
+		return nil, errs.NewError(err, http.StatusNotFound, 2009, errs.NotFound)
+	}
 
 	// use variable errUser just incase
 	_, errUser := u.psql.FindUserByEmail(ctx, req.Email)
@@ -64,30 +73,21 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		Email:    req.Email,
 		Password: string(password),
 		Status:   constant.NotYetVerified,
-		Role: &model.Role{
-			BaseModel: model.BaseModel{
-				Id: 1,
-			},
-			Name: "Customer",
-			Key:  "customer",
-		},
+		Role:     role,
 	}
 
 	// start the transaction
 	err = u.psql.StartTransaction(ctx, func(ctx context.Context, sd dbc.SqlDbc) error {
 		repo := psql.New(sd, sd)
-		fmt.Println("masuk sini")
 
 		// generate access token
 		token, err := u.generateTokens(ctx, req.Channel, req.DeviceId, user)
 		if err != nil {
 			trace.SetError(err)
-			fmt.Println("error nya apa?", err)
 
 			return err
 		}
 		resp = token
-		fmt.Println("lewat dong")
 
 		// insert user_device
 		// err = repo.CreateUserDevice(ctx, &model.UserDevice{
@@ -111,14 +111,12 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 			return errs.NewErrorWithCodeErr(err, errs.INSERT_DB_FAIL)
 		}
 
-		fmt.Println("yeay ga ada")
 		return nil
 	})
-	fmt.Println("masa sih?", err)
+
 	if err != nil {
 		return
 	}
 
-	fmt.Println("resp", resp)
 	return
 }

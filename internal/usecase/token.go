@@ -16,7 +16,6 @@ func (u *usecaseInstance) generateTokens(ctx context.Context, channel, deviceId 
 	trace, ctx := tracer.StartTraceWithContext(ctx, "Usecase:GenerateTokens")
 	defer trace.Finish()
 
-	fmt.Println("sebelum typesss")
 	tc := &types.TokenClaim{
 		UserId:       convert.IntToString(int64(user.Id)),
 		Username:     user.Username,
@@ -28,7 +27,6 @@ func (u *usecaseInstance) generateTokens(ctx context.Context, channel, deviceId 
 		StatusVerify: user.Status.String(),
 	}
 
-	fmt.Println("sebelum set nih")
 	resp, err = u.cache.SetAccessToken(ctx, tc)
 	if err != nil {
 		trace.SetError(err)
