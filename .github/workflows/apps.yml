@@ -27,14 +27,12 @@ jobs:
 
       - name: Docker build and push into repository
         uses: docker/build-push-action@v2
-        env:
-          IMAGE_NAME: ${{ github.repository }}
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/$IMAGE_NAME:${{ github.sha }}
+            ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
 
   deploy:
       name: Deploy application
