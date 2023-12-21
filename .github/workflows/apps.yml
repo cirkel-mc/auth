@@ -31,7 +31,7 @@ jobs:
           context: .
           file: ./Dockerfile
           build-args: |
-            name=${{ github.repository_owner }}
+            user=${{ github.repository_owner }}
             token=${{ secrets.GITHUB_TOKEN }}
           push: true
           tags: |
