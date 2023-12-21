@@ -1,9 +1,9 @@
-module comrades-mc/auth
+module cirkel/auth
 
 go 1.21.1
 
 require (
-	github.com/comrades-mc/goutils v0.0.0-20231125133523-2bbb5b3be7d9
+	github.com/cirkel-mc/goutils v0.0.0-20231221180627-01715f904a27
 	github.com/gofiber/fiber/v2 v2.51.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.14.0

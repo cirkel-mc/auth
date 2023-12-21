@@ -1,14 +1,14 @@
 package cmd
 
 import (
-	"comrades-mc/auth/internal/repository/cache"
-	"comrades-mc/auth/internal/repository/psql"
-	"comrades-mc/auth/internal/usecase"
+	"cirkel/auth/internal/repository/cache"
+	"cirkel/auth/internal/repository/psql"
+	"cirkel/auth/internal/usecase"
 
-	"github.com/comrades-mc/goutils/abstract"
-	"github.com/comrades-mc/goutils/config"
-	"github.com/comrades-mc/goutils/factory/server"
-	"github.com/comrades-mc/goutils/middleware"
+	"github.com/cirkel-mc/goutils/abstract"
+	"github.com/cirkel-mc/goutils/config"
+	"github.com/cirkel-mc/goutils/factory/server"
+	"github.com/cirkel-mc/goutils/middleware"
 )
 
 func Serve(cfg config.Config) *server.Server {

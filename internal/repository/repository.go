@@ -1,12 +1,12 @@
 package repository
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
-	"comrades-mc/auth/internal/domain/model"
+	"cirkel/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/model"
 	"context"
 
-	"github.com/comrades-mc/goutils/config/database/dbc"
-	"github.com/comrades-mc/goutils/types"
+	"github.com/cirkel-mc/goutils/config/database/dbc"
+	"github.com/cirkel-mc/goutils/types"
 )
 
 type Cache interface {

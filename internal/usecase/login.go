@@ -1,14 +1,14 @@
 package usecase
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/dto"
 	"context"
 	"net/http"
 
-	"github.com/comrades-mc/goutils/config/database/dbc"
-	"github.com/comrades-mc/goutils/errs"
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/config/database/dbc"
+	"github.com/cirkel-mc/goutils/errs"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
 	"golang.org/x/crypto/bcrypt"
 )
 

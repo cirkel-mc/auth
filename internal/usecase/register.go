@@ -1,20 +1,20 @@
 package usecase
 
 import (
-	"comrades-mc/auth/internal/domain/constant"
-	"comrades-mc/auth/internal/domain/dto"
-	"comrades-mc/auth/internal/domain/model"
-	"comrades-mc/auth/internal/repository/psql"
+	"cirkel/auth/internal/domain/constant"
+	"cirkel/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/model"
+	"cirkel/auth/internal/repository/psql"
 	"context"
 	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/comrades-mc/goutils/config/database/dbc"
-	"github.com/comrades-mc/goutils/env"
-	"github.com/comrades-mc/goutils/errs"
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/config/database/dbc"
+	"github.com/cirkel-mc/goutils/env"
+	"github.com/cirkel-mc/goutils/errs"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
 	"golang.org/x/crypto/bcrypt"
 )
 

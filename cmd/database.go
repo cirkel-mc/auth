@@ -3,9 +3,9 @@ package cmd
 import (
 	"time"
 
-	"github.com/comrades-mc/goutils/abstract"
-	"github.com/comrades-mc/goutils/config/database"
-	"github.com/comrades-mc/goutils/env"
+	"github.com/cirkel-mc/goutils/abstract"
+	"github.com/cirkel-mc/goutils/config/database"
+	"github.com/cirkel-mc/goutils/env"
 )
 
 func sqlDatabase() (abstract.SQLDatabase, abstract.SQLDatabase) {

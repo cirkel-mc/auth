@@ -1,6 +1,6 @@
 package psql
 
-import "github.com/comrades-mc/goutils/config/database/dbc"
+import "github.com/cirkel-mc/goutils/config/database/dbc"
 
 type psqlRepository struct {
 	master, slave dbc.SqlDbc

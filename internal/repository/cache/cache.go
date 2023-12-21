@@ -1,6 +1,6 @@
 package cache
 
-import "github.com/comrades-mc/goutils/config/database/rdc"
+import "github.com/cirkel-mc/goutils/config/database/rdc"
 
 const (
 	prefixAccessToken  = "at:%s"

@@ -1,12 +1,12 @@
 package usecase
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
-	"comrades-mc/auth/internal/repository"
+	"cirkel/auth/internal/domain/dto"
+	"cirkel/auth/internal/repository"
 	"context"
 	"time"
 
-	"github.com/comrades-mc/goutils/zone"
+	"github.com/cirkel-mc/goutils/zone"
 )
 
 type usecaseInstance struct {

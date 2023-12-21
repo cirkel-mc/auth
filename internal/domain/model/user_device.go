@@ -3,7 +3,7 @@ package model
 import (
 	"time"
 
-	"github.com/comrades-mc/goutils/null"
+	"github.com/cirkel-mc/goutils/null"
 )
 
 type UserDevice struct {

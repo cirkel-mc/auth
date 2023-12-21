@@ -1,15 +1,15 @@
 package usecase
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
-	"comrades-mc/auth/internal/domain/model"
+	"cirkel/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/model"
 	"context"
 	"fmt"
 
-	"github.com/comrades-mc/goutils/convert"
-	"github.com/comrades-mc/goutils/errs"
-	"github.com/comrades-mc/goutils/tracer"
-	"github.com/comrades-mc/goutils/types"
+	"github.com/cirkel-mc/goutils/convert"
+	"github.com/cirkel-mc/goutils/errs"
+	"github.com/cirkel-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/types"
 )
 
 func (u *usecaseInstance) generateTokens(ctx context.Context, channel, deviceId string, user *model.User) (resp *dto.Token, err error) {

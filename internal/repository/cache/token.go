@@ -1,18 +1,18 @@
 package cache
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/dto"
 	"context"
 	"fmt"
 	"time"
 
-	"github.com/comrades-mc/goutils/constants"
-	"github.com/comrades-mc/goutils/convert"
-	"github.com/comrades-mc/goutils/env"
-	"github.com/comrades-mc/goutils/helpers"
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/tracer"
-	"github.com/comrades-mc/goutils/types"
+	"github.com/cirkel-mc/goutils/constants"
+	"github.com/cirkel-mc/goutils/convert"
+	"github.com/cirkel-mc/goutils/env"
+	"github.com/cirkel-mc/goutils/helpers"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/types"
 )
 
 func (c *cacheRepository) GetAccessToken(ctx context.Context, accessToken string) (resp *types.TokenClaim, err error) {

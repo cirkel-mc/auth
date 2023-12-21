@@ -1,11 +1,11 @@
 package psql
 
 import (
-	"comrades-mc/auth/internal/domain/model"
+	"cirkel/auth/internal/domain/model"
 	"context"
 
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
 )
 
 func (p *psqlRepository) CreateUserDevice(ctx context.Context, ud *model.UserDevice) (err error) {

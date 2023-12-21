@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/comrades-mc/goutils/abstract"
-	"github.com/comrades-mc/goutils/config"
+	"github.com/cirkel-mc/goutils/abstract"
+	"github.com/cirkel-mc/goutils/config"
 )
 
 func injectDependencies(cfg config.Config) (deps abstract.Dependency) {

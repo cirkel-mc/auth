@@ -1,9 +1,9 @@
 package model
 
 import (
-	"comrades-mc/auth/internal/domain/constant"
+	"cirkel/auth/internal/domain/constant"
 
-	"github.com/comrades-mc/goutils/null"
+	"github.com/cirkel-mc/goutils/null"
 )
 
 type User struct {

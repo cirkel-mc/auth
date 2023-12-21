@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"comrades-mc/auth/internal/handler/http"
-	"comrades-mc/auth/internal/usecase"
+	"cirkel/auth/internal/handler/http"
+	"cirkel/auth/internal/usecase"
 
-	"github.com/comrades-mc/goutils/abstract"
-	"github.com/comrades-mc/goutils/env"
-	"github.com/comrades-mc/goutils/factory/server"
-	"github.com/comrades-mc/goutils/factory/server/rest"
+	"github.com/cirkel-mc/goutils/abstract"
+	"github.com/cirkel-mc/goutils/env"
+	"github.com/cirkel-mc/goutils/factory/server"
+	"github.com/cirkel-mc/goutils/factory/server/rest"
 )
 
 func httpHandler(deps abstract.Dependency, uc usecase.Usecase) server.ServiceFunc {

@@ -1,12 +1,12 @@
 package http
 
 import (
-	"comrades-mc/auth/internal/domain/dto"
+	"cirkel/auth/internal/domain/dto"
 	"net/http"
 
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/response"
-	"github.com/comrades-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/response"
+	"github.com/cirkel-mc/goutils/tracer"
 	"github.com/gofiber/fiber/v2"
 )
 

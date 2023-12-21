@@ -1,10 +1,10 @@
 package http
 
 import (
-	"comrades-mc/auth/internal/usecase"
+	"cirkel/auth/internal/usecase"
 
-	"github.com/comrades-mc/goutils/abstract"
-	"github.com/comrades-mc/goutils/validation"
+	"github.com/cirkel-mc/goutils/abstract"
+	"github.com/cirkel-mc/goutils/validation"
 	"github.com/gofiber/fiber/v2"
 )
 

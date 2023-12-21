@@ -1,9 +1,9 @@
 package main
 
 import (
-	"comrades-mc/auth/cmd"
+	"cirkel/auth/cmd"
 
-	"github.com/comrades-mc/goutils/config"
+	"github.com/cirkel-mc/goutils/config"
 	_ "github.com/joho/godotenv/autoload"
 )
 

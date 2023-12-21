@@ -1,12 +1,12 @@
 package psql
 
 import (
-	"comrades-mc/auth/internal/domain/model"
+	"cirkel/auth/internal/domain/model"
 	"context"
 	"fmt"
 
-	"github.com/comrades-mc/goutils/logger"
-	"github.com/comrades-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
 )
 
 const queryRole = `
