@@ -4,9 +4,11 @@ RUN apk update && apk add --no-cache git && apk add gcc libc-dev
 
 WORKDIR /usr/app
 
-COPY .netrc .netrc
+ARG user
 
-RUN cp -f .netrc ~/
+ARG token
+
+RUN git config --global url."https://${user}:${token}@github.com".insteadOf "https://github.com"
 
 ENV GOSUMDB=off
 
