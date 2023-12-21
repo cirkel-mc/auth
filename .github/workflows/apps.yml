@@ -21,7 +21,7 @@ jobs:
           GITHUB_USER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          registry: ${{ vars.REGISTRY_URL }}
+          registry: '${{ vars.REGISTRY_URL }}'
           username: $GITHUB_USER
           password: $GITHUB_TOKEN
 
