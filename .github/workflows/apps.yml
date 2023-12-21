@@ -15,7 +15,7 @@ jobs:
       - name: Git Configuration
         run: |
           echo ${{ secrets.NET_RC }} > .netrc
-          echo ${{ vars.REGISTRY_URL }}
+          echo ${{ secrets.REGISTRY_URL }}
           echo $GITHUB_USER
           echo $GITHUB_TOKEN
       - name: Login to Github Container Registry
@@ -24,7 +24,7 @@ jobs:
           GITHUB_USER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          registry: '${{ vars.REGISTRY_URL }}'
+          registry: '${{ secrets.REGISTRY_URL }}'
           username: $GITHUB_USER
           password: $GITHUB_TOKEN
 
@@ -50,14 +50,14 @@ jobs:
           with:
             release: ${{ github.repository }}
             namespace: cirkel-dev
-            repo: ${{ vars.PAGES_URL }}/charts
+            repo: ${{ secrets.PAGES_URL }}/charts
             repo-alias: cirkel
             chart: 'cirkel/cirkel-chart'
             token: ${{ secrets.GITHUB_TOKEN }}
             version: ${{ github.sha }}
             values: |
               image:
-                repository: ${{ vars.REGISTRY_URL }}/${{ github.repository }}
+                repository: ${{ secrets.REGISTRY_URL }}/${{ github.repository }}
                 tag: ${{ github.sha }}
 
             
