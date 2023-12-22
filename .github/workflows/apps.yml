@@ -42,13 +42,11 @@ jobs:
         - build
       steps:
         - name: Deploy with Helm Chart
-          uses: vimeda/helm@v1.7.0
+          uses: deliverybot/helm@v1.7.0
           with:
             release: ${{ github.repository }}
             namespace: cirkel-dev
-            repo: ${{ secrets.PAGES_URL }}/charts
-            repo-alias: cirkel
-            chart: 'cirkel/cirkel-chart'
+            chart: '${{ secrets.PAGES_URL }}/charts/cirkel-chart'
             token: ${{ secrets.GITHUB_TOKEN }}
             version: ${{ github.sha }}
             values: |
