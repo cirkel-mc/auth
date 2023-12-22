@@ -22,7 +22,7 @@ jobs:
           GITHUB_USER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          registry: '${{ secrets.REGISTRY_URL }}'
+          registry: ${{ secrets.REGISTRY_URL }}
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,7 +51,7 @@ jobs:
           with:
             args: |
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
-              helm upgrade --install auth -n cirkel-dev cirkel/cirkel-chart \
+              helm upgrade --install auth cirkel/cirkel-chart -n cirkel-dev \
                 --set image.repository=${{ env.CR_URL }} \
                 --set image.tag = ${{ github.sha }}
 
