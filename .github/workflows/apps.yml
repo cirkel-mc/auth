@@ -23,8 +23,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           registry: ${{ secrets.REGISTRY_URL }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ secrets.GH_USER }}
+          password: ${{ secrets.GH_PERSONAL_TOKEN }}
 
       - name: Docker build and push into repository
         uses: docker/build-push-action@v4
