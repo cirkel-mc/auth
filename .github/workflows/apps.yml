@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+env:
+  CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/${{ github.repository }}
+
 jobs:
   build:
     name: Build application
@@ -33,7 +36,7 @@ jobs:
             token=${{ secrets.GH_PERSONAL_TOKEN }}
           push: true
           tags: |
-            ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/${{ github.repository }}:${{ github.sha }}
+            ${{ env.CR_URL }}:${{ github.sha }}
 
   deploy:
       name: Deploy application
@@ -42,16 +45,14 @@ jobs:
         - build
       steps:
         - name: Deploy with Helm Chart
-          uses: deliverybot/helm@v1.7.0
+          uses: wahyd4/kubectl-helm-action@master
+          env:
+            KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
           with:
-            release: ${{ github.repository }}
-            namespace: cirkel-dev
-            chart: '${{ secrets.PAGES_URL }}/charts/cirkel-chart'
-            token: ${{ secrets.GITHUB_TOKEN }}
-            version: ${{ github.sha }}
-            values: |
-              image:
-                repository: ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/${{ github.repository }}
-                tag: ${{ github.sha }}
+            args: |
+              helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
+              helm upgrade --install ${{ github.repository }} -n cirkel-dev cirkel/cirkel-chart \
+                --set image.repository=${{ env.CR_URL }} \
+                --set image.tag = ${{ github.sha }}
 
             
