@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository_owner }}/${{ github.repository }}
+  CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository }}
 
 jobs:
   build:
@@ -51,7 +51,7 @@ jobs:
           with:
             args: |
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
-              helm upgrade --install ${{ github.repository }} -n cirkel-dev cirkel/cirkel-chart \
+              helm upgrade --install auth -n cirkel-dev cirkel/cirkel-chart \
                 --set image.repository=${{ env.CR_URL }} \
                 --set image.tag = ${{ github.sha }}
 
