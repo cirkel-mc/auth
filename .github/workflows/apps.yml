@@ -44,6 +44,8 @@ jobs:
       needs:
         - build
       steps:
+        # - name: Deploy to k8s Cluster
+        #   uses: yokawasa/action-setup-kube-tools@v0.9.2
         - name: Deploy with Helm Chart
           uses: wahyd4/kubectl-helm-action@master
           env:
@@ -53,6 +55,6 @@ jobs:
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
               helm upgrade --install auth cirkel/cirkel-chart -n cirkel-dev \
                 --set image.repository=${{ env.CR_URL }} \
-                --set image.tag = ${{ github.sha }}
+                --set image.tag=${{ github.sha }}
 
             
