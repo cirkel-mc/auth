@@ -26,6 +26,6 @@ FROM alpine:3.18
 
 RUN apk add --no-cache tzdata ca-certificates libc6-compat
 
-COPY --from=builder /usr/app/bin bin
+COPY --from=builder /usr/app/bin /usr/app/bin
 
-ENTRYPOINT ["./bin"]
+ENTRYPOINT ["/usr/app/bin"]
