@@ -38,7 +38,7 @@ jobs:
             namespace=cirkel" >> $GITHUB_OUTPUT
           fi
 
-          if [[ $branch =~ ^feature/[a-zA-Z0-9_-]{0,50} ]]; then
+          if [[ $branch =~ ^feature\/[a-zA-Z0-9_-]{0,50} ]]; then
             echo "image_tag=${{ github.sha }}
             file_values=values-dev.yaml
             kube_config=${{ secrets.KUBECONFIG }}
