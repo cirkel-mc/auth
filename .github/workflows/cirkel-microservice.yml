@@ -30,15 +30,15 @@ jobs:
             branch=${{ github.ref }}
           fi
           echo $branch
-          if [[ ${{ github.ref }} =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            version_tag=$(echo ${{ github.ref }} | cut -d '/' -f4)
+          if [[ $branch =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            version_tag=$(echo $branch | cut -d '/' -f4)
             echo "image_tag=$(echo $version_tag | sed 's@v@@')
             file_values=values-prd.yaml
             kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}
             namespace=cirkel" >> $GITHUB_OUTPUT
           fi
 
-          if [[ ${{ github.ref }} =~ ^refs/heads/feature/[a-zA-Z0-9_-]{0,50} ]]; then
+          if [[ $branch =~ ^feature/[a-zA-Z0-9_-]{0,50} ]]; then
             echo "image_tag=${{ github.sha }}
             file_values=values-dev.yaml
             kube_config=${{ secrets.KUBECONFIG }}
