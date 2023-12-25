@@ -38,6 +38,9 @@ jobs:
           fi
 
           echo $GITHUB_ENV
+          echo $image_tag
+          echo $kube_config
+          echo $namespace
 
   build:
     name: Build Application
