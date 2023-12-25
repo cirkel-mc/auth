@@ -3,10 +3,11 @@ name: Deployment Cirkel Microservices
 on:
   push:
     branches:
-      - 'release/**'
-  pull_request_target: 
-    branches:
-      - "master"
+      - master
+  #     - 'release/**'
+  # pull_request_target: 
+  #   branches:
+  #     - "master"
 
 env:
   CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository }}
@@ -35,6 +36,8 @@ jobs:
             echo "kube_config=${{ secrets.KUBECONFIG }}" >> "$GITHUB_ENV"
             echo "namespace=cirkel-dev" >> "$GITHUB_ENV"
           fi
+
+          echo $GITHUB_ENV
 
   build:
     name: Build Application
