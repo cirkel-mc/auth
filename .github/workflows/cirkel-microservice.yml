@@ -36,6 +36,8 @@ jobs:
             echo "namespace=cirkel-dev" >> "$GITHUB_ENV"
           fi
 
+          echo $GITHUB_ENV
+
   build:
     name: Build Application
     runs-on: ubuntu-22.04
