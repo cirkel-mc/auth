@@ -19,6 +19,7 @@ jobs:
       image_tag: ${{ steps.set-variable.outputs.image_tag }}
       file_values: ${{ steps.set-variable.outputs.file_values }}
       namespace: ${{ steps.set-variable.outputs.namespace }}
+      service_name: ${{ steps.set-variable.outputs.service_name }}
     steps:
       - uses: actions/checkout@v3
       - name: Set env variable
@@ -30,6 +31,7 @@ jobs:
             branch=${{ github.ref }}
           fi
           echo $branch
+
           if [[ $branch =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             version_tag=$(echo $branch | cut -d '/' -f4)
             echo "image_tag=$(echo $version_tag | sed 's@v@@')" >> $GITHUB_OUTPUT
@@ -44,6 +46,8 @@ jobs:
             echo "kube_context=pg" >> $GITHUB_OUTPUT
             echo "namespace=cirkel-dev" >> $GITHUB_OUTPUT
           fi
+
+          echo "service_name=$(echo ${{ github.repository }} | cut -d '/' -f2)"
 
   build:
     name: Build Application
@@ -95,6 +99,6 @@ jobs:
             args: |
               kubectl config use-context ${{ needs.setup-job-env.outputs.kube_context }}
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
-              helm upgrade --install ${{ github.repository }} cirkel/cirkel-chart -f ${{ env.FILE_VAULES }} -n ${{ env.NAMESPACE }} \
+              helm upgrade --install ${{ needs.setup-job-env.outputs.service_name }} cirkel/cirkel-chart -f ${{ env.FILE_VAULES }} -n ${{ env.NAMESPACE }} \
                 --set image.repository=${{ env.CR_URL }} \
                 --set image.tag=${{ env.IMAGE_TAG }}
