@@ -54,6 +54,9 @@ jobs:
       - setup-job-env
     steps:
       - uses: actions/checkout@v3
+      - name: echo env
+        run: |
+          echo ${{ needs.setup-job-env.outputs.kube_config }}
       - name: Login to Github Container Registry
         uses: docker/login-action@v1
         with:
@@ -78,7 +81,6 @@ jobs:
       runs-on: ubuntu-22.04
       env:
         IMAGE_TAG: ${{ needs.setup-job-env.outputs.image_tag }}
-        KUBECONFIG: ${{ needs.setup-job-env.outputs.kube_config }}
         NAMESPACE: ${{ needs.setup-job-env.outputs.namespace }}
         FILE_VAULES: ${{ needs.setup-job-env.outputs.file_values }}
       needs:
@@ -88,7 +90,7 @@ jobs:
         - name: Deploy with Helm Chart
           uses: wahyd4/kubectl-helm-action@master
           env:
-            KUBE_CONFIG_DATA: ${{ env.KUBECONFIG }}
+            KUBE_CONFIG_DATA: ${{ needs.setup-job-env.outputs.kube_config }}
           with:
             args: |
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
