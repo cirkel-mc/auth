@@ -25,7 +25,8 @@ jobs:
         id: set-variable
         shell: bash
         run: |
-          echo ${{ github.ref }}
+          echo ${{ github.head_ref }}
+          echo ${{ github.base_ref }}
           if [[ ${{ github.ref }} =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             version_tag=$(echo ${{ github.ref }} | cut -d '/' -f4)
             echo "image_tag=$(echo $version_tag | sed 's@v.@@')
