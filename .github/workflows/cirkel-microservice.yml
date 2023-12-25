@@ -17,7 +17,7 @@ jobs:
     outputs:
       kube_config: ${{ steps.set-variable.outputs.kube_config }}
       image_tag: ${{ steps.set-variable.outputs.image_tag }}
-      file_values: ${{ steps.set-variable.outcome.file_values }}
+      file_values: ${{ steps.set-variable.outputs.file_values }}
       namespace: ${{ steps.set-variable.outputs.namespace }}
     steps:
       - uses: actions/checkout@v3
@@ -88,7 +88,7 @@ jobs:
         - name: Deploy with Helm Chart
           uses: wahyd4/kubectl-helm-action@master
           env:
-            KUBE_CONFIG_DATA: $kube_config
+            KUBE_CONFIG_DATA: ${{ env.KUBECONFIG }}
           with:
             args: |
               helm repo add cirkel ${{ secrets.PAGES_URL }}/charts
