@@ -18,6 +18,7 @@ jobs:
     outputs:
       kube_config: ${{ steps.set-variable.outputs.kube_config }}
       image_tag: ${{ steps.set-variable.outputs.image_tag }}
+      namespace: ${{ steps.set-variable.outputs.namespace }}
     steps:
       - uses: actions/checkout@v3
       - name: Set env variable
@@ -26,21 +27,16 @@ jobs:
         run: |
           if [[ ${{ github.ref }} =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             version_tag=$(echo ${{ github.ref }} | cut -d '/' -f4)
-            echo "image_tag=$(echo $version_tag | sed 's@v.@@')" >> "$GITHUB_ENV"
-            echo "kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}" >> "$GITHUB_ENV"
-            echo "namespace=cirkel" >> "$GITHUB_ENV"
+            echo "image_tag=$(echo $version_tag | sed 's@v.@@')" >> $GITHUB_OUTPUT
+            echo "kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}" >> $GITHUB_OUTPUT
+            echo "namespace=cirkel" >> $GITHUB_OUTPUT
           fi
 
           if [[ ${{ github.ref }} =~ ^refs/heads/feature/[a-zA-Z0-9_-]{0,50} ]]; then
-            echo "image_tag=${{ github.sha }}" >> "$GITHUB_ENV"
-            echo "kube_config=${{ secrets.KUBECONFIG }}" >> "$GITHUB_ENV"
-            echo "namespace=cirkel-dev" >> "$GITHUB_ENV"
+            echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "kube_config=${{ secrets.KUBECONFIG }}" >> $GITHUB_OUTPUT
+            echo "namespace=cirkel-dev" >> $GITHUB_OUTPUT
           fi
-
-          echo $GITHUB_ENV
-          echo $image_tag
-          echo $kube_config
-          echo $namespace
 
   build:
     name: Build Application
@@ -49,6 +45,10 @@ jobs:
       - setup-job-env
     steps:
       - uses: actions/checkout@v3
+      - name: echo env
+        run: | 
+          echo ${{ needs.setup-job-env.outputs.image_tag }}
+          echo ${{ needs.setup-job-env.outputs.namespace }}
       - name: Login to Github Container Registry
         uses: docker/login-action@v1
         with:
