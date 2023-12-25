@@ -42,7 +42,7 @@ jobs:
             echo "image_tag=${{ github.sha }}
             file_values=values-dev.yaml
             kube_config=${{ secrets.KUBECONFIG }}
-            namespace=cirkel-dev" >> $GITHUB_ENV
+            namespace=cirkel-dev" >> $GITHUB_OUTPUT
           fi
 
   build:
