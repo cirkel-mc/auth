@@ -31,12 +31,10 @@ jobs:
             kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}
             namespace=cirkel" >> $GITHUB_ENV
           fi
-
-          if [[ ${{ github.ref }} =~ ^refs/heads/feature/[a-zA-Z0-9_-]{0,50} ]]; then
-            echo "image_tag=${{ github.sha }}
-            kube_config=${{ secrets.KUBECONFIG }}
-            namespace=cirkel-dev" >> $GITHUB_ENV
-          fi
+          
+          echo "image_tag=${{ github.sha }}
+          kube_config=${{ secrets.KUBECONFIG }}
+          namespace=cirkel-dev" >> $GITHUB_ENV
       - name: echo env
         run: |
           echo "$namespace"
