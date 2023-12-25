@@ -47,7 +47,7 @@ jobs:
             echo "namespace=cirkel-dev" >> $GITHUB_OUTPUT
           fi
 
-          echo "service_name=$(echo ${{ github.repository }} | cut -d '/' -f2)"
+          echo "service_name=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_OUTPUT
 
   build:
     name: Build Application
