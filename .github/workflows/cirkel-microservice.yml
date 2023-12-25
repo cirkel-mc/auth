@@ -29,12 +29,12 @@ jobs:
             version_tag=$(echo ${{ github.ref }} | cut -d '/' -f4)
             echo "image_tag=$(echo $version_tag | sed 's@v.@@')
             kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}
-            namespace=cirkel" >> $GITHUB_ENV
+            namespace=cirkel" >> $GITHUB_OUTPUT
           fi
-          
+
           echo "image_tag=${{ github.sha }}
           kube_config=${{ secrets.KUBECONFIG }}
-          namespace=cirkel-dev" >> $GITHUB_ENV
+          namespace=cirkel-dev" >> $GITHUB_OUTPUT
       - name: echo env
         run: |
           echo "$namespace"
