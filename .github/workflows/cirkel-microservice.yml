@@ -42,7 +42,7 @@ jobs:
     needs:
       - setup-job-env
     steps:
-      - uses: action/checkout@v3
+      - uses: actions/checkout@v3
       - name: Login to Github Container Registry
         uses: docker/login-action@v1
         with:
