@@ -32,17 +32,17 @@ jobs:
           echo $branch
           if [[ $branch =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             version_tag=$(echo $branch | cut -d '/' -f4)
-            echo "image_tag=$(echo $version_tag | sed 's@v@@')
-            file_values=values-prd.yaml
-            kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}
-            namespace=cirkel" >> $GITHUB_OUTPUT
+            echo "image_tag=$(echo $version_tag | sed 's@v@@')" >> $GITHUB_OUTPUT
+            echo "file_values=values-prd.yaml" >> $GITHUB_OUTPUT
+            echo "kube_config=${{ secrets.KUBECONFIG_PRODUCTION }}" >> $GITHUB_OUTPUT
+            echo "namespace=cirkel" >> $GITHUB_OUTPUT
           fi
 
           if [[ $branch =~ ^feature\/[a-zA-Z0-9_-]{0,50} ]]; then
-            echo "image_tag=${{ github.sha }}
-            file_values=values-dev.yaml
-            kube_config=${{ secrets.KUBECONFIG }}
-            namespace=cirkel-dev" >> $GITHUB_OUTPUT
+            echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "file_values=values-dev.yaml" >> $GITHUB_OUTPUT
+            echo "kube_config=${{ secrets.KUBECONFIG }}" >> $GITHUB_OUTPUT
+            echo "namespace=cirkel-dev" >> $GITHUB_OUTPUT
           fi
 
   build:
