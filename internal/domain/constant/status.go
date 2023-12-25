@@ -8,7 +8,6 @@ const (
 	Inactive
 	Banned
 	Deleted
-	Tested
 )
 
 func (us UserStatus) Int() int {
