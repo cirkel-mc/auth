@@ -4,7 +4,6 @@ import (
 	"cirkel/auth/internal/domain/dto"
 	"cirkel/auth/internal/domain/model"
 	"context"
-	"fmt"
 
 	"github.com/cirkel-mc/goutils/convert"
 	"github.com/cirkel-mc/goutils/errs"
@@ -30,7 +29,6 @@ func (u *usecaseInstance) generateTokens(ctx context.Context, channel, deviceId 
 	resp, err = u.cache.SetAccessToken(ctx, tc)
 	if err != nil {
 		trace.SetError(err)
-		fmt.Println("yah gagakl set access token", err)
 
 		return nil, errs.NewErrorWithCodeErr(err, errs.INSERT_REDIS_FAILED)
 	}

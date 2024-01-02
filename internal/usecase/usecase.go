@@ -18,6 +18,7 @@ type usecaseInstance struct {
 type Usecase interface {
 	Register(ctx context.Context, req *dto.RequestRegister) (*dto.Token, error)
 	Login(ctx context.Context, req *dto.RequestLogin) (resp *dto.Token, err error)
+	ValidateAuth(ctx context.Context, req *dto.RequestHeader) (resp *dto.Auth, err error)
 }
 
 func New(p repository.Psql, c repository.Cache) *usecaseInstance {

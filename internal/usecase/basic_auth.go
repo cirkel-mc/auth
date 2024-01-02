@@ -1,0 +1,68 @@
+package usecase
+
+import (
+	"cirkel/auth/internal/domain/dto"
+	"context"
+	"crypto/sha256"
+	"database/sql"
+	"encoding/base64"
+	"errors"
+	"fmt"
+	"strings"
+
+	"github.com/cirkel-mc/goutils/errs"
+	"github.com/cirkel-mc/goutils/logger"
+	"github.com/cirkel-mc/goutils/tracer"
+)
+
+func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dto.Auth, err error) {
+	trace, ctx := tracer.StartTraceWithContext(ctx, "Usecase:BasicAuth")
+	defer trace.Finish()
+
+	t, err := base64.StdEncoding.DecodeString(token)
+	if err != nil {
+		trace.SetError(err)
+		logger.Log.Errorf(ctx, "failed to decode token: %s", err)
+
+		return nil, errs.NewErrorWithCodeErr(err, errs.INVALID_AUTH)
+	}
+
+	tokens := strings.Split(string(t), ":")
+	if len(tokens) != 2 {
+		err = fmt.Errorf("invalid username and password")
+		trace.SetError(err)
+		logger.Log.Error(ctx, err)
+
+		return nil, errs.NewErrorWithCodeErr(err, errs.INVALID_AUTH)
+	}
+
+	username := tokens[0]
+	password := tokens[1]
+
+	client, err := u.psql.FindClientByClientId(ctx, username)
+	if err != nil {
+		trace.SetError(err)
+		if !errors.Is(err, sql.ErrNoRows) {
+			return nil, errs.NewErrorWithCodeErr(err, errs.GENERAL_ERROR)
+		}
+
+		return nil, errs.NewErrorWithCodeErr(err, errs.USER_NOT_FOUND)
+	}
+
+	s := sha256.New()
+	s.Write([]byte(password))
+	hashedPassword := fmt.Sprintf("%x", s.Sum(nil))
+
+	if client.ClientSecret != hashedPassword {
+		err = fmt.Errorf("password incorrect")
+
+		trace.SetError(err)
+		logger.Log.Error(ctx, err)
+		return nil, errs.NewErrorWithCodeErr(err, errs.BAD_REQUEST)
+	}
+
+	return &dto.Auth{
+		Channel:   client.Channel,
+		PublicKey: client.PublicKey,
+	}, nil
+}

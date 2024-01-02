@@ -2,6 +2,8 @@ module cirkel/auth
 
 go 1.21.1
 
+replace github.com/cirkel-mc/goutils => /users/pandudpn/apps/go/src/github.com/comrades-mc/goutils
+
 require (
 	github.com/cirkel-mc/goutils v0.0.0-20231221180627-01715f904a27
 	github.com/gofiber/fiber/v2 v2.51.0
