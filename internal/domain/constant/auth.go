@@ -1,6 +1,6 @@
 package constant
 
 const (
-	Basic  = "Basic"
-	Bearer = "Bearer"
+	Basic  string = "Basic"
+	Bearer string = "Bearer"
 )
