@@ -52,6 +52,8 @@ jobs:
   build:
     name: Build Application
     runs-on: ubuntu-22.04
+    permissions:
+      packages: write
     env:
       IMAGE_TAG: ${{ needs.setup-job-env.outputs.image_tag }}
     needs:
