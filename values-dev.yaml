@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: 
+  repository: ghcr.io/cirkel-mc/auth
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
@@ -72,23 +72,23 @@ resources:
     cpu: 50m
     memory: 64Mi
 
-livenessProbe: {}
-  # httpGet:
-  #   port: 10000
-  #   path: /ping
-  # initialDelaySeconds: 30
-  # periodSeconds: 10
-readinessProbe: {}
-  # httpGet:
-  #   port: 10000
-  #   path: /ping
-  # initialDelaySeconds: 30
-  # periodSeconds: 10
+livenessProbe:
+  httpGet:
+    port: 80
+    path: /live/status
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    port: 80
+    path: /live/status
+  initialDelaySeconds: 30
+  periodSeconds: 10
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
