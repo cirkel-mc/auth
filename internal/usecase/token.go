@@ -30,7 +30,7 @@ func (u *usecaseInstance) generateTokens(ctx context.Context, channel, deviceId 
 	if err != nil {
 		trace.SetError(err)
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.INSERT_REDIS_FAILED)
+		return nil, errs.NewErrorWithCodeErr(err, errs.RedisError)
 	}
 
 	return

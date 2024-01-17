@@ -2,16 +2,16 @@ package http
 
 import (
 	"cirkel/auth/internal/domain/dto"
-	"net/http"
 
 	"github.com/cirkel-mc/goutils/constants"
 	"github.com/cirkel-mc/goutils/convert"
-	"github.com/cirkel-mc/goutils/response"
+	svc "github.com/cirkel-mc/goutils/service"
 	"github.com/cirkel-mc/goutils/tracer"
 	"github.com/gofiber/fiber/v2"
 )
 
 func (h *httpInstance) validateAuth(c *fiber.Ctx) error {
+	sc := svc.New(c, svc.Auth)
 	ctx := c.UserContext()
 	trace, ctx := tracer.StartTraceWithContext(ctx, "HTTPHandler:ValidateAuth")
 	defer trace.Finish()
@@ -21,14 +21,14 @@ func (h *httpInstance) validateAuth(c *fiber.Ctx) error {
 	if err != nil {
 		trace.SetError(err)
 
-		return response.Error(ctx, err).JSON(c)
+		return sc.Error(ctx, err)
 	}
 
 	auth, err := h.usecase.ValidateAuth(ctx, req)
 	if err != nil {
 		trace.SetError(err)
 
-		return response.Error(ctx, err).JSON(c)
+		return sc.Error(ctx, err)
 	}
 
 	c.Set(constants.UserId, convert.IntToString(int64(auth.UserId)))
@@ -40,5 +40,5 @@ func (h *httpInstance) validateAuth(c *fiber.Ctx) error {
 	c.Set(constants.Channel, auth.Channel)
 	c.Set(constants.PublicKey, auth.PublicKey)
 
-	return response.Success(ctx, http.StatusOK, "ok").JSON(c)
+	return sc.OK(ctx, "ok")
 }

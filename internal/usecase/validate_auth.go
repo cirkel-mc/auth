@@ -5,7 +5,6 @@ import (
 	"cirkel/auth/internal/domain/dto"
 	"context"
 	"fmt"
-	"net/http"
 	"strings"
 
 	"github.com/cirkel-mc/goutils/errs"
@@ -20,7 +19,7 @@ func (u *usecaseInstance) ValidateAuth(ctx context.Context, req *dto.RequestHead
 	if len(auths) != 2 {
 		err = fmt.Errorf("authorization invalid")
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.INVALID_AUTH)
+		return nil, errs.NewErrorWithCodeErr(err, errs.InvalidAuth)
 	}
 
 	switch auths[0] {
@@ -28,7 +27,7 @@ func (u *usecaseInstance) ValidateAuth(ctx context.Context, req *dto.RequestHead
 		resp, err = u.basicAuth(ctx, auths[1])
 	case constant.Bearer:
 	default:
-		err = errs.NewError(fmt.Errorf("token type invalid"), http.StatusUnauthorized, 100, errs.UNAUTHORIZED.Message())
+		err = errs.NewErrorWithCodeErr(fmt.Errorf("token type invalid"), errs.InvalidAuth)
 	}
 
 	if err != nil {
