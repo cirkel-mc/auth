@@ -24,6 +24,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# container environment variable
+env:
+  ETCD_ADDR: etcd.etcd.svc.cluster.local:2379
+
 podAnnotations: {}
 
 podSecurityContext: {}
