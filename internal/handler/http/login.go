@@ -2,10 +2,14 @@ package http
 
 import (
 	"cirkel/auth/internal/domain/dto"
+	"time"
 
+	"github.com/cirkel-mc/goutils/constants"
+	"github.com/cirkel-mc/goutils/env"
 	"github.com/cirkel-mc/goutils/logger"
 	svc "github.com/cirkel-mc/goutils/service"
 	"github.com/cirkel-mc/goutils/tracer"
+	"github.com/cirkel-mc/goutils/zone"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -32,5 +36,19 @@ func (h *httpInstance) login(c *fiber.Ctx) error {
 		return sc.Error(ctx, err)
 	}
 
-	return sc.OK(ctx, resp)
+	expired := time.Now().In(zone.TzJakarta()).Add(time.Duration(resp.ExpiresIn) * time.Second)
+	// set cookie access token
+	c.Cookie(&fiber.Cookie{
+		Name:     constants.CookieAccessToken,
+		Value:    resp.AccessToken,
+		Path:     "/",
+		Domain:   env.GetString("CIRKEL_URL"),
+		MaxAge:   int(resp.ExpiresIn),
+		Expires:  expired,
+		Secure:   true,
+		HTTPOnly: true,
+		SameSite: fiber.CookieSameSiteStrictMode,
+	})
+
+	return sc.OK(ctx, "Login berhasil")
 }

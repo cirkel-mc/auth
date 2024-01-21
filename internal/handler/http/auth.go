@@ -24,6 +24,11 @@ func (h *httpInstance) validateAuth(c *fiber.Ctx) error {
 		return sc.Error(ctx, err)
 	}
 
+	token := c.Cookies(constants.CookieAccessToken)
+	if token != "" {
+		req.Authorization = token
+	}
+
 	auth, err := h.usecase.ValidateAuth(ctx, req)
 	if err != nil {
 		trace.SetError(err)
