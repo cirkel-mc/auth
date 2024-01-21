@@ -6,7 +6,7 @@ on:
       - 'release/**'
   pull_request: 
     branches:
-      - 'feature/**'
+      - 'master'
 
 env:
   CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository }}
