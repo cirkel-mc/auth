@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - 'release/**'
-  pull_request_target: 
+  pull_request: 
     branches:
-      - "master"
+      - 'feature/**'
 
 env:
   CR_URL: ${{ secrets.REGISTRY_URL }}/${{ github.repository }}
@@ -37,6 +37,14 @@ jobs:
           echo $branch
 
           if [[ $branch =~ ^refs\/heads\/release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            version_tag=$(echo $branch | cut -d '/' -f4)
+            echo "image_tag=$(echo $version_tag | sed 's@v@@')" >> $GITHUB_OUTPUT
+            echo "file_values=values-prd.yaml" >> $GITHUB_OUTPUT
+            echo "kube_context=cirkel-prod" >> $GITHUB_OUTPUT
+            echo "namespace=cirkel" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ $branch =~ ^release\/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             version_tag=$(echo $branch | cut -d '/' -f4)
             echo "image_tag=$(echo $version_tag | sed 's@v@@')" >> $GITHUB_OUTPUT
             echo "file_values=values-prd.yaml" >> $GITHUB_OUTPUT
