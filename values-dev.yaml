@@ -62,13 +62,13 @@ resources:
 livenessProbe:
   httpGet:
     port: 8000
-    path: /live/status
+    path: /ping
   initialDelaySeconds: 30
   periodSeconds: 10
 readinessProbe:
   httpGet:
     port: 8000
-    path: /live/status
+    path: /ping
   initialDelaySeconds: 30
   periodSeconds: 10
 
