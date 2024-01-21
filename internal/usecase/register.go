@@ -80,7 +80,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		repo := psql.New(sd, sd)
 
 		// generate access token
-		token, err := u.generateTokens(ctx, req.Channel, req.DeviceId, user)
+		token, err := u.generateTokens(ctx, req, user)
 		if err != nil {
 			trace.SetError(err)
 

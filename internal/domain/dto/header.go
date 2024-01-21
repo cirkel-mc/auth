@@ -6,4 +6,5 @@ type RequestHeader struct {
 	DeviceId      string `header:"x-device-id" validate:"required"`
 	UserAgent     string `header:"user-agent"`
 	FcmToken      string `header:"x-fcm-token"`
+	PublicKey     string `header:"public_key"`
 }

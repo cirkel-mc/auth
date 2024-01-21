@@ -36,7 +36,7 @@ func (u *usecaseInstance) Login(ctx context.Context, req *dto.RequestLogin) (res
 		// repo := psql.New(sd, sd)
 
 		// generate access token
-		token, err := u.generateTokens(ctx, req.Channel, req.DeviceId, user)
+		token, err := u.generateTokens(ctx, req, user)
 		if err != nil {
 			trace.SetError(err)
 
