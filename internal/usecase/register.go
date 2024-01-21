@@ -7,7 +7,6 @@ import (
 	"cirkel/auth/internal/repository/psql"
 	"context"
 	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/cirkel-mc/goutils/config/database/dbc"
@@ -27,7 +26,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 	if err != nil {
 		trace.SetError(err)
 
-		return nil, errs.NewError(err, http.StatusNotFound, 2009, errs.NotFound)
+		return nil, errs.NewErrorWithCodeErr(err, errs.DataNotFound)
 	}
 
 	// use variable errUser just incase
@@ -36,7 +35,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		errUser = fmt.Errorf("email already exists")
 		trace.SetError(errUser)
 
-		return nil, errs.NewError(errUser, http.StatusConflict, 2001, "E-mail sudah digunakan")
+		return nil, errs.NewErrorWithCodeErr(errUser, errs.Conflict)
 	}
 
 	_, errUser = u.psql.FindUserByUsername(ctx, req.Username)
@@ -44,14 +43,14 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		errUser = fmt.Errorf("username already exists")
 		trace.SetError(errUser)
 
-		return nil, errs.NewError(errUser, http.StatusConflict, 2002, "Username sudah digunakan")
+		return nil, errs.NewErrorWithCodeErr(errUser, errs.Conflict)
 	}
 
 	userSeq, err := u.psql.GetUserNextVal(ctx)
 	if err != nil {
 		trace.SetError(err)
 
-		return nil, errs.NewError(err, http.StatusNotFound, 2003, errs.NotFound)
+		return nil, errs.NewErrorWithCodeErr(err, errs.DatabaseError)
 	}
 
 	// generate password with bcrypt
@@ -60,7 +59,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		trace.SetError(err)
 		logger.Log.Errorf(ctx, "generate password error: %s", err)
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.GENERAL_ERROR)
+		return nil, errs.NewErrorWithCodeErr(err, errs.GeneralError)
 	}
 
 	now := time.Now().In(u.tz)
@@ -81,7 +80,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		repo := psql.New(sd, sd)
 
 		// generate access token
-		token, err := u.generateTokens(ctx, req.Channel, req.DeviceId, user)
+		token, err := u.generateTokens(ctx, req, user)
 		if err != nil {
 			trace.SetError(err)
 
@@ -108,7 +107,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		if err != nil {
 			trace.SetError(err)
 
-			return errs.NewErrorWithCodeErr(err, errs.INSERT_DB_FAIL)
+			return errs.NewErrorWithCodeErr(err, errs.DatabaseError)
 		}
 
 		return nil

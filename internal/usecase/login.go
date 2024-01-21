@@ -3,7 +3,6 @@ package usecase
 import (
 	"cirkel/auth/internal/domain/dto"
 	"context"
-	"net/http"
 
 	"github.com/cirkel-mc/goutils/config/database/dbc"
 	"github.com/cirkel-mc/goutils/errs"
@@ -20,7 +19,7 @@ func (u *usecaseInstance) Login(ctx context.Context, req *dto.RequestLogin) (res
 	if err != nil {
 		trace.SetError(err)
 
-		return nil, errs.NewError(err, http.StatusNotFound, 2101, "User tidak ditemukan")
+		return nil, errs.NewErrorWithCodeErr(err, errs.UserNotFound)
 	}
 
 	// match the password
@@ -29,7 +28,7 @@ func (u *usecaseInstance) Login(ctx context.Context, req *dto.RequestLogin) (res
 		trace.SetError(err)
 		logger.Log.Error(ctx, err)
 
-		return nil, errs.NewError(err, http.StatusBadRequest, 2102, "Username atau password tidak sesuai")
+		return nil, errs.NewErrorWithCodeErr(err, errs.PasswordNotMatch)
 	}
 
 	// start the transaction
@@ -37,7 +36,7 @@ func (u *usecaseInstance) Login(ctx context.Context, req *dto.RequestLogin) (res
 		// repo := psql.New(sd, sd)
 
 		// generate access token
-		token, err := u.generateTokens(ctx, req.Channel, req.DeviceId, user)
+		token, err := u.generateTokens(ctx, req, user)
 		if err != nil {
 			trace.SetError(err)
 

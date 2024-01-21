@@ -24,7 +24,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 		trace.SetError(err)
 		logger.Log.Errorf(ctx, "failed to decode token: %s", err)
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.INVALID_AUTH)
+		return nil, errs.NewErrorWithCodeErr(err, errs.InvalidAuth)
 	}
 
 	tokens := strings.Split(string(t), ":")
@@ -33,7 +33,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 		trace.SetError(err)
 		logger.Log.Error(ctx, err)
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.INVALID_AUTH)
+		return nil, errs.NewErrorWithCodeErr(err, errs.InvalidAuth)
 	}
 
 	username := tokens[0]
@@ -43,10 +43,10 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 	if err != nil {
 		trace.SetError(err)
 		if !errors.Is(err, sql.ErrNoRows) {
-			return nil, errs.NewErrorWithCodeErr(err, errs.GENERAL_ERROR)
+			return nil, errs.NewErrorWithCodeErr(err, errs.GeneralError)
 		}
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.USER_NOT_FOUND)
+		return nil, errs.NewErrorWithCodeErr(err, errs.UserNotFound)
 	}
 
 	s := sha256.New()
@@ -58,7 +58,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 
 		trace.SetError(err)
 		logger.Log.Error(ctx, err)
-		return nil, errs.NewErrorWithCodeErr(err, errs.BAD_REQUEST)
+		return nil, errs.NewErrorWithCodeErr(err, errs.BadRequest)
 	}
 
 	return &dto.Auth{

@@ -21,14 +21,18 @@ jobs:
       namespace: ${{ steps.set-variable.outputs.namespace }}
       service_name: ${{ steps.set-variable.outputs.service_name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
       - name: Set env variable
         id: set-variable
         shell: bash
         run: |
           branch=${{ github.head_ref }}
+          echo $branch
           if [ -z "$branch" ]; then
             branch=${{ github.ref }}
+            echo $branch
           fi
           echo $branch
 
@@ -59,7 +63,9 @@ jobs:
     needs:
       - setup-job-env
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
       - name: Login to Github Container Registry
         uses: docker/login-action@v1
         with:
@@ -90,7 +96,9 @@ jobs:
         - setup-job-env
         - build
       steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
+          with:
+            ref: ${{ github.ref }}
         - name: Deploy with Helm Chart
           uses: wahyd4/kubectl-helm-action@master
           env:

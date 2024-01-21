@@ -13,7 +13,7 @@ func (p *psqlRepository) CreateUserDevice(ctx context.Context, ud *model.UserDev
 	defer trace.Finish()
 
 	query := `
-	insert into user.user_device
+	insert into user.user_devices
 	(created_at, user_id, device_id, channel, user_agent, fcm_token)
 	values ($1, $2, $3, $4, $5, $6)
 	`

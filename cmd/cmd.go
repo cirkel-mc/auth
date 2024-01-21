@@ -28,6 +28,7 @@ func Serve(cfg config.Config) *server.Server {
 	// initiates services
 	svc := server.NewApplicationService(
 		server.SetConfiguration(cfg),
+		server.SetDependencies(deps),
 		httpHandler(deps, uc),
 	)
 

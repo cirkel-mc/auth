@@ -12,7 +12,7 @@ import (
 const queryUser = `
 select
 	us.id, us.username, us.email, us.password, us.status, us.verified_at,
-	ro.id AS "ro.id", ro.name AS "ro.name", ro.key AS "ro.key"
+	ro.id AS "ro.id", ro.name AS "ro.name", ro.key AS "ro.key", us.is_partner
 from "user".users as us
 inner join "user".roles as ro on ro.id = us.role_id
 `

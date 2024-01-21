@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: 
+  repository: ghcr.io/cirkel-mc/auth
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest
@@ -42,7 +42,7 @@ service:
   ports:
     - name: http
       port: 80 # port-forward
-      targetPort: 9000 # target port is port from pods (service application)
+      targetPort: 8000 # target port is port from pods (service application)
 
 ingress:
   enabled: false
@@ -72,25 +72,25 @@ resources:
     cpu: 50m
     memory: 64Mi
 
-livenessProbe: {}
-  # httpGet:
-  #   port: 10000
-  #   path: /ping
-  # initialDelaySeconds: 30
-  # periodSeconds: 10
-readinessProbe: {}
-  # httpGet:
-  #   port: 10000
-  #   path: /ping
-  # initialDelaySeconds: 30
-  # periodSeconds: 10
+livenessProbe:
+  httpGet:
+    port: 8000
+    path: /live/status
+  initialDelaySeconds: 30
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    port: 8000
+    path: /live/status
+  initialDelaySeconds: 30
+  periodSeconds: 10
 
 autoscaling:
-  enabled: false
+  enabled: true
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 95
+  targetMemoryUtilizationPercentage: 85
 
 nodeSelector: {}
 

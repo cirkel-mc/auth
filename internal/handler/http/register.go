@@ -2,15 +2,15 @@ package http
 
 import (
 	"cirkel/auth/internal/domain/dto"
-	"net/http"
 
 	"github.com/cirkel-mc/goutils/logger"
-	"github.com/cirkel-mc/goutils/response"
+	svc "github.com/cirkel-mc/goutils/service"
 	"github.com/cirkel-mc/goutils/tracer"
 	"github.com/gofiber/fiber/v2"
 )
 
 func (h *httpInstance) register(c *fiber.Ctx) error {
+	sc := svc.New(c, svc.Auth)
 	ctx := c.UserContext()
 	trace, ctx := tracer.StartTraceWithContext(ctx, "HTTPHandler:Register")
 	defer trace.Finish()
@@ -21,7 +21,7 @@ func (h *httpInstance) register(c *fiber.Ctx) error {
 	if err != nil {
 		trace.SetError(err)
 
-		return response.Error(ctx, err).JSON(c)
+		return sc.Error(ctx, err)
 	}
 
 	resp, err := h.usecase.Register(ctx, req)
@@ -29,8 +29,8 @@ func (h *httpInstance) register(c *fiber.Ctx) error {
 		trace.SetError(err)
 		logger.Log.Error(ctx, err)
 
-		return response.Error(ctx, err).JSON(c)
+		return sc.Error(ctx, err)
 	}
 
-	return response.Success(ctx, http.StatusCreated, resp).JSON(c)
+	return sc.Created(ctx, resp)
 }

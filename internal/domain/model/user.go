@@ -12,6 +12,7 @@ type User struct {
 	Password   string              `db:"password"`
 	Email      string              `db:"email"`
 	Status     constant.UserStatus `db:"status"`
+	IsPartner  bool                `db:"is_partner"`
 	VerifiedAt null.Time           `db:"verified_at"`
 
 	// foreign key
