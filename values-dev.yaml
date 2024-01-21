@@ -42,7 +42,7 @@ service:
   ports:
     - name: http
       port: 80 # port-forward
-      targetPort: 9000 # target port is port from pods (service application)
+      targetPort: 8000 # target port is port from pods (service application)
 
 ingress:
   enabled: false
