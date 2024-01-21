@@ -46,19 +46,6 @@ service:
 
 ingress:
   enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: cirkel-dev.api.pandudpn.id
-      paths:
-        - path: /auth
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -75,18 +62,18 @@ resources:
 livenessProbe:
   httpGet:
     port: 8000
-    path: /live/status
+    path: /ping
   initialDelaySeconds: 30
   periodSeconds: 10
 readinessProbe:
   httpGet:
     port: 8000
-    path: /live/status
+    path: /ping
   initialDelaySeconds: 30
   periodSeconds: 10
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 95
