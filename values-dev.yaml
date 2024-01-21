@@ -73,7 +73,7 @@ readinessProbe:
   periodSeconds: 10
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
   maxReplicas: 2
   targetCPUUtilizationPercentage: 90
