@@ -52,6 +52,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 	s := sha256.New()
 	s.Write([]byte(password))
 	hashedPassword := fmt.Sprintf("%x", s.Sum(nil))
+	logger.Log.Debugf(ctx, "hashedPassword %s and client.ClientSecret %s", hashedPassword, client.ClientSecret)
 
 	if client.ClientSecret != hashedPassword {
 		err = fmt.Errorf("password incorrect")
