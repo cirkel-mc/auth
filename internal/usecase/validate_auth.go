@@ -24,7 +24,7 @@ func (u *usecaseInstance) ValidateAuth(ctx context.Context, req *dto.RequestHead
 			return nil, errs.NewErrorWithCodeErr(err, errs.InvalidAuth)
 		}
 
-		resp, err = u.basicAuth(ctx, auths[1])
+		resp, err = u.basicAuth(ctx, req, auths[1])
 		if err != nil {
 			return
 		}
