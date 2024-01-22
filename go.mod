@@ -5,7 +5,7 @@ go 1.21.1
 // replace github.com/cirkel-mc/goutils => /users/pandudpn/apps/go/src/github.com/comrades-mc/goutils
 
 require (
-	github.com/cirkel-mc/goutils v0.0.0-20240121100120-e6f1ce9058ea
+	github.com/cirkel-mc/goutils v0.0.0-20240122004958-fc1e7afde0eb
 	github.com/gofiber/fiber/v2 v2.51.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/crypto v0.14.0
