@@ -30,7 +30,8 @@ func (h *httpInstance) Router(r fiber.Router) {
 		r.Get("/validate", h.validateAuth)
 	}
 
-	v1 := r.Group("/v1", h.middleware.HTTPSignatureValidate)
+	// v1 := r.Group("/v1", h.middleware.HTTPSignatureValidate)
+	v1 := r.Group("/v1")
 	v1.Post("/register", h.register)
 	v1.Post("/login", h.login)
 }
