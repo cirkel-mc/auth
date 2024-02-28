@@ -1,4 +1,4 @@
-name: Deployment Cirkel Microservices
+name: Deployment Service
 
 on:
   push:
@@ -52,7 +52,7 @@ jobs:
             echo "namespace=cirkel" >> $GITHUB_OUTPUT
           fi
 
-          if [[ $branch =~ ^feature\/[a-zA-Z0-9_-]{0,50} ]]; then
+          if [[ $branch =~ ^(feature|fix)\/[a-zA-Z0-9_-]{0,50} ]]; then
             echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
             echo "file_values=values-dev.yaml" >> $GITHUB_OUTPUT
             echo "kube_context=pg" >> $GITHUB_OUTPUT
