@@ -8,6 +8,7 @@ require (
 	github.com/cirkel-mc/goutils v0.0.0-20240317090939-39e120974b72
 	github.com/gofiber/fiber/v2 v2.51.0
 	github.com/joho/godotenv v1.5.1
+	github.com/redis/go-redis/v9 v9.4.0
 	golang.org/x/crypto v0.18.0
 )
 
@@ -68,7 +69,6 @@ require (
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
-	github.com/redis/go-redis/v9 v9.4.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/sethvargo/go-retry v0.2.4 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
