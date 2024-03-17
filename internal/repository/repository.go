@@ -13,6 +13,9 @@ type Cache interface {
 	GetAccessToken(ctx context.Context, accessToken string) (*types.TokenClaim, error)
 	GetRefreshToken(ctx context.Context, accessToken string) (*types.TokenClaim, error)
 	SetAccessToken(ctx context.Context, tc *types.TokenClaim) (*dto.Token, error)
+	GetCsrfToken(ctx context.Context, csrfToken string) error
+	SetCsrfToken(ctx context.Context) (string, error)
+	DeleteCsrfToken(ctx context.Context, csrfToken string) error
 }
 
 type Psql interface {

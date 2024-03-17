@@ -5,6 +5,7 @@ import (
 
 	"github.com/cirkel-mc/goutils/constants"
 	"github.com/cirkel-mc/goutils/convert"
+	"github.com/cirkel-mc/goutils/logger"
 	svc "github.com/cirkel-mc/goutils/service"
 	"github.com/cirkel-mc/goutils/tracer"
 	"github.com/gofiber/fiber/v2"
@@ -15,6 +16,8 @@ func (h *httpInstance) validateAuth(c *fiber.Ctx) error {
 	ctx := c.UserContext()
 	trace, ctx := tracer.StartTraceWithContext(ctx, "HTTPHandler:ValidateAuth")
 	defer trace.Finish()
+
+	logger.Log.Printf(ctx, "all request header: %v", c.GetReqHeaders())
 
 	var req = new(dto.RequestHeader)
 	err := h.validator.BindAndValidateWithContext(ctx, c, req)

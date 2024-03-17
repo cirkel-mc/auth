@@ -7,4 +7,5 @@ type RequestHeader struct {
 	UserAgent     string `header:"user-agent"`
 	FcmToken      string `header:"x-fcm-token"`
 	PublicKey     string `header:"public_key"`
+	CsrfToken     string
 }
