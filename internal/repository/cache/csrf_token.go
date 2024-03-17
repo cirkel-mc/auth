@@ -43,7 +43,7 @@ func (c *cacheRepository) SetCsrfToken(ctx context.Context) (string, error) {
 	csrfToken += unix[len(unix)-8:]
 	key := fmt.Sprintf(prefixCsrfToken, csrfToken)
 
-	csrfTokenExpired := env.GetDuration("HTTP_CSRF_TOKEN_DURATION", 24*time.Hour)
+	csrfTokenExpired := env.GetDuration("HTTP_CSRF_TOKEN_DURATION", 30*time.Minute)
 	err = c.client.Set(ctx, key, "1", csrfTokenExpired)
 	if err != nil {
 		trace.SetError(err)

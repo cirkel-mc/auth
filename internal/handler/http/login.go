@@ -36,14 +36,40 @@ func (h *httpInstance) login(c *fiber.Ctx) error {
 		return sc.Error(ctx, err)
 	}
 
-	expired := time.Now().In(zone.TzJakarta()).Add(time.Duration(resp.ExpiresIn) * time.Second)
 	// set cookie access token
+	expired := time.Now().In(zone.TzJakarta()).Add(time.Duration(resp.ExpiresIn) * time.Second)
 	c.Cookie(&fiber.Cookie{
 		Name:     constants.CookieAccessToken,
 		Value:    resp.AccessToken,
 		Path:     "/",
 		Domain:   env.GetString("CIRKEL_URL"),
 		MaxAge:   int(resp.ExpiresIn),
+		Expires:  expired,
+		Secure:   true,
+		HTTPOnly: true,
+		SameSite: fiber.CookieSameSiteStrictMode,
+	})
+	// set cookie for refresh token
+	expired = time.Now().In(zone.TzJakarta()).Add(time.Duration(resp.RefreshTokenExpiresIn) * time.Second)
+	c.Cookie(&fiber.Cookie{
+		Name:     constants.CookieRefreshToken,
+		Value:    resp.RefreshToken,
+		Path:     "/",
+		Domain:   env.GetString("CIRKEL_URL"),
+		MaxAge:   int(resp.RefreshTokenExpiresIn),
+		Expires:  expired,
+		Secure:   true,
+		HTTPOnly: true,
+		SameSite: fiber.CookieSameSiteStrictMode,
+	})
+	// set cookie for csrf token
+	expired = time.Now().In(zone.TzJakarta()).Add(env.GetDuration("HTTP_CSRF_TOKEN_DURATION", 30*time.Minute))
+	c.Cookie(&fiber.Cookie{
+		Name:     constants.CookieCsrfToken,
+		Value:    resp.CsrfToken,
+		Path:     "/",
+		Domain:   env.GetString("CIRKEL_URL"),
+		MaxAge:   int(env.GetDuration("HTTP_CSRF_TOKEN_DURATION", 30*time.Minute)),
 		Expires:  expired,
 		Secure:   true,
 		HTTPOnly: true,
