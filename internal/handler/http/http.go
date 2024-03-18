@@ -34,4 +34,5 @@ func (h *httpInstance) Router(r fiber.Router) {
 	v1 := r.Group("/v1")
 	v1.Post("/register", h.register)
 	v1.Post("/login", h.login)
+	v1.Post("/refresh-token", h.refreshToken)
 }

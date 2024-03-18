@@ -20,6 +20,7 @@ type Usecase interface {
 	Login(ctx context.Context, req *dto.RequestLogin) (resp *dto.Token, err error)
 	ValidateAuth(ctx context.Context, req *dto.RequestHeader) (resp *dto.Auth, err error)
 	ValidateCsrfToken(ctx context.Context, csrfToken string) (string, error)
+	RefreshToken(ctx context.Context, req *dto.Token) (*dto.Token, error)
 }
 
 func New(p repository.Psql, c repository.Cache) *usecaseInstance {

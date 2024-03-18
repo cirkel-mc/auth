@@ -11,7 +11,7 @@ import (
 
 type Cache interface {
 	GetAccessToken(ctx context.Context, accessToken string) (*types.TokenClaim, error)
-	GetRefreshToken(ctx context.Context, accessToken string) (*types.TokenClaim, error)
+	GetRefreshToken(ctx context.Context, refreshToken string) (*types.TokenClaim, error)
 	SetAccessToken(ctx context.Context, tc *types.TokenClaim) (*dto.Token, error)
 	GetCsrfToken(ctx context.Context, csrfToken string) error
 	SetCsrfToken(ctx context.Context) (string, error)
@@ -21,6 +21,7 @@ type Cache interface {
 type Psql interface {
 	StartTransaction(ctx context.Context, txFunc func(context.Context, dbc.SqlDbc) error) error
 	GetUserNextVal(ctx context.Context) (int, error)
+	FindUserById(ctx context.Context, id int) (resp *model.User, err error)
 	FindUserByUsername(ctx context.Context, username string) (*model.User, error)
 	FindUserByEmail(ctx context.Context, email string) (*model.User, error)
 	CreateUser(ctx context.Context, user *model.User) error

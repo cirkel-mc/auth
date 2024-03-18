@@ -33,6 +33,23 @@ func (p *psqlRepository) GetUserNextVal(ctx context.Context) (resp int, err erro
 	return
 }
 
+func (p *psqlRepository) FindUserById(ctx context.Context, id int) (resp *model.User, err error) {
+	trace, ctx := tracer.StartTraceWithContext(ctx, "PsqlRepository:FindUserById")
+	defer trace.Finish()
+
+	resp = new(model.User)
+	query := fmt.Sprintf("%s where us.id=$1", queryUser)
+	err = p.slave.Get(ctx, resp, query, id)
+	if err != nil {
+		trace.SetError(err)
+		logger.Log.Errorf(ctx, "failed to get user by id: %s", err)
+
+		return
+	}
+
+	return
+}
+
 func (p *psqlRepository) FindUserByUsername(ctx context.Context, username string) (resp *model.User, err error) {
 	trace, ctx := tracer.StartTraceWithContext(ctx, "PsqlRepository:FindUserByUsername")
 	defer trace.Finish()
