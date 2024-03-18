@@ -6,32 +6,29 @@ import (
 
 	"github.com/cirkel-mc/goutils/constants"
 	"github.com/cirkel-mc/goutils/env"
-	"github.com/cirkel-mc/goutils/logger"
 	svc "github.com/cirkel-mc/goutils/service"
 	"github.com/cirkel-mc/goutils/tracer"
 	"github.com/cirkel-mc/goutils/zone"
 	"github.com/gofiber/fiber/v2"
 )
 
-func (h *httpInstance) login(c *fiber.Ctx) error {
+func (h *httpInstance) refreshToken(c *fiber.Ctx) error {
 	sc := svc.New(c, svc.Auth)
 	ctx := c.UserContext()
-	trace, ctx := tracer.StartTraceWithContext(ctx, "HTTPHandler:Login")
+
+	trace, ctx := tracer.StartTraceWithContext(ctx, "HTTPHandler:RefreshToken")
 	defer trace.Finish()
 
-	var req = new(dto.RequestLogin)
-	req.RequestHeader = new(dto.RequestHeader)
-	err := h.validator.BindAndValidateWithContext(ctx, c, req)
-	if err != nil {
+	var req = new(dto.Token)
+	if err := h.validator.BindAndValidateWithContext(ctx, c, req); err != nil {
 		trace.SetError(err)
 
 		return sc.Error(ctx, err)
 	}
 
-	resp, err := h.usecase.Login(ctx, req)
+	resp, err := h.usecase.RefreshToken(ctx, req)
 	if err != nil {
 		trace.SetError(err)
-		logger.Log.Error(ctx, err)
 
 		return sc.Error(ctx, err)
 	}
@@ -76,5 +73,5 @@ func (h *httpInstance) login(c *fiber.Ctx) error {
 		SameSite: fiber.CookieSameSiteStrictMode,
 	})
 
-	return sc.OK(ctx, "Login berhasil")
+	return sc.OK(ctx, "Otentikasi berhasil diperbarui")
 }

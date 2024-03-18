@@ -5,6 +5,7 @@ import "github.com/cirkel-mc/goutils/config/database/rdc"
 const (
 	prefixAccessToken  = "at:%s"
 	prefixRefreshToken = "rt:%s"
+	prefixCsrfToken    = "csrf:%s"
 )
 
 type cacheRepository struct {

@@ -46,5 +46,13 @@ func (u *usecaseInstance) generateTokens(ctx context.Context, req interface{}, u
 		return nil, errs.NewErrorWithCodeErr(err, errs.RedisError)
 	}
 
+	csrfToken, err := u.generateCsrfToken(ctx)
+	if err != nil {
+		trace.SetError(err)
+
+		return nil, err
+	}
+	resp.CsrfToken = csrfToken
+
 	return
 }

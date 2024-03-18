@@ -92,10 +92,11 @@ func (c *cacheRepository) SetAccessToken(ctx context.Context, tc *types.TokenCla
 	}
 
 	resp = &dto.Token{
-		TokenType:    constants.Bearer,
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-		ExpiresIn:    int64(accessTokenExpired.Seconds()),
+		TokenType:             constants.Bearer,
+		AccessToken:           accessToken,
+		RefreshToken:          refreshToken,
+		ExpiresIn:             int64(accessTokenExpired.Seconds()),
+		RefreshTokenExpiresIn: int64(refreshTokenExpired.Seconds()),
 	}
 	return
 }

@@ -35,7 +35,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		errUser = fmt.Errorf("email already exists")
 		trace.SetError(errUser)
 
-		return nil, errs.NewErrorWithCodeErr(errUser, errs.Conflict)
+		return nil, errs.NewErrorWithCodeErr(errUser, errs.EmailConflict)
 	}
 
 	_, errUser = u.psql.FindUserByUsername(ctx, req.Username)
@@ -43,14 +43,14 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		errUser = fmt.Errorf("username already exists")
 		trace.SetError(errUser)
 
-		return nil, errs.NewErrorWithCodeErr(errUser, errs.Conflict)
+		return nil, errs.NewErrorWithCodeErr(errUser, errs.UsernameConflict)
 	}
 
 	userSeq, err := u.psql.GetUserNextVal(ctx)
 	if err != nil {
 		trace.SetError(err)
 
-		return nil, errs.NewErrorWithCodeErr(err, errs.DatabaseError)
+		return nil, errs.NewErrorWithCodeErr(err, errs.SQLError)
 	}
 
 	// generate password with bcrypt
@@ -107,7 +107,7 @@ func (u *usecaseInstance) Register(ctx context.Context, req *dto.RequestRegister
 		if err != nil {
 			trace.SetError(err)
 
-			return errs.NewErrorWithCodeErr(err, errs.DatabaseError)
+			return errs.NewErrorWithCodeErr(err, errs.SQLInsertFailed)
 		}
 
 		return nil

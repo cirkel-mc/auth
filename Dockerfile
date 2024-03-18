@@ -12,6 +12,8 @@ RUN git config --global url."https://${user}:${token}@github.com".insteadOf "htt
 
 ENV GOSUMDB=off
 
+COPY db db
+
 COPY go.mod .
 
 COPY go.sum .

@@ -10,12 +10,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/cirkel-mc/goutils/constants"
 	"github.com/cirkel-mc/goutils/errs"
 	"github.com/cirkel-mc/goutils/logger"
 	"github.com/cirkel-mc/goutils/tracer"
 )
 
-func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dto.Auth, err error) {
+func (u *usecaseInstance) basicAuth(ctx context.Context, req *dto.RequestHeader, token string) (resp *dto.Auth, err error) {
 	trace, ctx := tracer.StartTraceWithContext(ctx, "Usecase:BasicAuth")
 	defer trace.Finish()
 
@@ -52,6 +53,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 	s := sha256.New()
 	s.Write([]byte(password))
 	hashedPassword := fmt.Sprintf("%x", s.Sum(nil))
+	logger.Log.Debugf(ctx, "hashedPassword %s and client.ClientSecret %s", hashedPassword, client.ClientSecret)
 
 	if client.ClientSecret != hashedPassword {
 		err = fmt.Errorf("password incorrect")
@@ -64,5 +66,7 @@ func (u *usecaseInstance) basicAuth(ctx context.Context, token string) (resp *dt
 	return &dto.Auth{
 		Channel:   client.Channel,
 		PublicKey: client.PublicKey,
+		DeviceId:  req.DeviceId,
+		RoleKey:   constants.ACLPublic,
 	}, nil
 }
